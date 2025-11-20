@@ -81,7 +81,7 @@ function App() {
 
           <span id="filter-selected-value"></span>
         </section>
-
+{/* https://www.jscamp.dev/introduccion-a-react/props-comunicacion-componentes */}
         <section>
           <h2>Resultados de búsqueda</h2>
           <div className="jobs-listings">
