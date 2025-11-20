@@ -1,5 +1,4 @@
 import data from "./data.json";
-console.log(data);
 
 import Footer from "./components/Footer.jsx";
 import Header from "./components/Header.jsx";
@@ -85,9 +84,18 @@ function App() {
 
         <section>
           <h2>Resultados de búsqueda</h2>
-
-          <div className="jobs-listings"></div>
-
+          <div className="jobs-listings">
+            {data.map((empleo) => (
+              <div key={empleo.id}>
+                <h3>{empleo.titulo}</h3>
+                <small>
+                  {empleo.empresa} | {empleo.ubicacion}
+                </small>
+                <p>{empleo.descripcion}</p>
+              </div>
+            ))}
+          </div>
+          <button className="button-apply-job">Aplicar</button>
           <nav className="pagination">
             <a href="#">
               <svg
