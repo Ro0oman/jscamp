@@ -8,7 +8,8 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
 
   const handleSumbit = (e) => {
     e.preventDefault();
-    const formData = new FormData(event.target);
+    const formData = new FormData(e.currentTarget);
+    
     const filters = {
       search: formData.get(idText),
       technology: formData.get(idTechnology),
@@ -29,7 +30,7 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
       <h1>Encuentra tu próximo trabajo</h1>
       <p>Explora miles de oportunidades en el sector tecnológico.</p>
 
-      <form onSubmit={handleSumbit} id="empleos-search-form" role="search">
+      <form onChange={handleSumbit} id="empleos-search-form" role="search">
         <div className="search-bar">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +56,7 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
             placeholder="Buscar trabajos, empresas o habilidades"
             onChange={handleTextChange}
           />
-          <button type="submit">Buscar</button>
+          {/* <button type="submit">Buscar</button> */}
         </div>
 
         <div className="search-filters">
