@@ -1,4 +1,5 @@
-import data from "../data.json";
+import jobsData from "../data.json";
+import { JobCard } from "./JobCard.jsx";
 
 
 export function JobListings() {
@@ -6,14 +7,8 @@ export function JobListings() {
     <>
       <h2>Resultados de búsqueda</h2>
       <div className="jobs-listings">
-        {data.map((empleo) => (
-          <div key={empleo.id}>
-            <h3>{empleo.titulo}</h3>
-            <small>
-              {empleo.empresa} | {empleo.ubicacion}
-            </small>
-            <p>{empleo.descripcion}</p>
-          </div>
+        {jobsData.map((job) => (
+          <JobCard key={job.id} job={job} />
         ))}
       </div>
       <button className="button-apply-job">Aplicar</button>

@@ -22,7 +22,7 @@ function App() {
       <main>
         <SearchFormSection />
         <section>
-          {/* <JobListings /> */}
+          <JobListings />
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </section>
       </main>
