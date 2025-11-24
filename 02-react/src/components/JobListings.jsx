@@ -1,7 +1,7 @@
 import data from "../data.json";
 
 
-function JobListings() {
+export function JobListings() {
   return (
     <>
       <h2>Resultados de búsqueda</h2>
@@ -20,5 +20,3 @@ function JobListings() {
     </>
   );
 }
-
-export default JobListings;
