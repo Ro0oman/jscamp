@@ -1,4 +1,4 @@
-export function Pagination({ currentPage = 1, totalPages = 19 }) {
+export function Pagination({ currentPage = 1, totalPages = 19, onPageChange }) {
   //Generar un array de paginas a mostrar
   const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
 
@@ -12,9 +12,31 @@ export function Pagination({ currentPage = 1, totalPages = 19 }) {
     ? { pointerEvents: "none", opacity: "0.5" }
     : {};
 
+    const handlePrevClick = (e) =>{
+      e.preventDefault();
+      if (isFirstPage === false) {
+        onPageChange(currentPage - 1);
+      }
+    }
+
+    const handleNextClick = (e) =>{
+      e.preventDefault();
+      if (isLastPage === false) {
+        onPageChange(currentPage + 1);
+      }
+    }
+
+    const handleChangePage = (e, page) =>{
+      e.preventDefault();
+      if(page !== currentPage){
+        onPageChange(page);
+      }
+    
+    }
+
   return (
     <nav className="pagination">
-        <a href="#" style={stylePrevButton}>
+        <a href="#" style={stylePrevButton} onClick={handlePrevClick}>
           <svg
             width="16"
             height="16"
@@ -34,12 +56,13 @@ export function Pagination({ currentPage = 1, totalPages = 19 }) {
           key={page}
           href="#"
           className={page === currentPage ? "is-active" : ""}
+          onClick={(event)=>handleChangePage(event, page)}
         >
           {page}
         </a>
       ))}
 
-        <a href="#" style={styleNextButton}>
+        <a href="#" style={styleNextButton} onClick={handleNextClick}>
           <svg
             width="16"
             height="16"
