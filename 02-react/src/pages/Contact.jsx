@@ -21,12 +21,6 @@ export function Contact() {
               </a>
             </li>
 
-            <li>
-              <strong>Teléfono:</strong>{" "}
-              <a href="tel:+34634662067">
-                +34 634 66 20 67
-              </a>
-            </li>
 
             <li>
               <strong>Portfolio:</strong>{" "}
@@ -63,18 +57,34 @@ export function Contact() {
           </ul>
         </section>
 
-        <section className="contact-section about">
-          <h2>🚀 Sobre esta página</h2>
-          <p>
-            Esta página ha sido creada por <strong>Roman Myziuk</strong> usando
-            como guía los cursos de <strong>JSCamp</strong> creados por
-            Midudev.
-          </p>
-          <p>
-            Proyecto personal para seguir mejorando mis habilidades en HTML,
-            CSS y desarrollo frontend.
-          </p>
-        </section>
+        <form className="formulario-contacto">
+            <h1>🚀 Contactame</h1>
+          <div>
+            <input
+              required
+              name="name"
+              type="text"
+              placeholder="Nombre"
+            />
+            <input
+              required
+              name="email"
+              type="text"
+              placeholder="Email"
+            />
+          </div>
+          <div>
+            <input
+            className="details"
+              required
+              name="details"
+              type="text"
+              placeholder="Detalles"
+            />
+          </div>
+          <button>Contact</button>
+        </form>
+
       </main>
 
     

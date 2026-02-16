@@ -543,3 +543,12 @@ article {
   margin-top: 2rem;
 }
 
+
+.formulario-contacto{
+  display: flex;
+  flex-direction: column;
+
+  .details{
+    height: 200px;
+  }
+}
