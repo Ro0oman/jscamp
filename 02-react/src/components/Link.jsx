@@ -1,21 +1,24 @@
-import { useRouter } from "../hooks/useRouter"
+import { useRouter } from "../hooks/useRouter";
 
+export function Link({ href, children, ...restOfProps }) {
+  const { navigateTo, currentPath } = useRouter();
 
-export function Link({ href, children, ...restOfProps  }){
+  const handleClick = (e) => {
+    e.preventDefault();
+    navigateTo(href);
+  };
 
-    const { navigateTo } = useRouter()
-
-    
-
-    const handleClick = (e) => {
-        e.preventDefault()
-        navigateTo(href)
-    }
-
-
-    return(
-        <a href={href} {...restOfProps} onClick={handleClick}>
-            {children}
-        </a>
-    )
+  if (currentPath == href) {
+    console.log("iguales");
+  }
+  return (
+    <a
+      className={currentPath == href ? "is-active" : ""}
+      href={href}
+      {...restOfProps}
+      onClick={handleClick}
+    >
+      {children}
+    </a>
+  );
 }

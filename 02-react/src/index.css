@@ -134,10 +134,16 @@ header {
     font-weight: 700;
     color: var(--text-primary);
   }
+
+ 
 }
 
 /* Navegación del header a otras páginas */
 nav {
+  .is-active {
+      color: yellow;
+      transition: none;
+  }
   align-items: center;
   gap: 1rem;
   display: flex;
@@ -149,8 +155,9 @@ nav {
     font-weight: 500;
 
     &:hover, &:focus {
-      color: var(--primary);
       outline: none;
+    transition: 0.5s;
+
     }
   }
 }
@@ -535,3 +542,4 @@ article {
   color: white;
   margin-top: 2rem;
 }
+
