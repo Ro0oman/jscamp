@@ -489,3 +489,49 @@ article {
     pointer-events: none;
   }
 }
+
+.contact-page {
+  font-family: system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+}
+
+
+
+.contact-header {
+  background-color: #111;
+  color: white;
+  padding: 2rem;
+  text-align: center;
+}
+
+.contact-main {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 8px;
+}
+.contact-main a{
+  color: aquamarine;
+}
+
+
+.contact-section {
+  margin-bottom: 2rem;
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-list li {
+  margin: 0.8rem 0;
+}
+
+.contact-footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #111;
+  color: white;
+  margin-top: 2rem;
+}

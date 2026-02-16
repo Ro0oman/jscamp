@@ -23,6 +23,9 @@ export function Header() {
       <nav>
         <Link href="/search">Empleos</Link>
       </nav>
+      <nav>
+        <Link href="/contacto">Contacto</Link>
+      </nav>
 
       <div></div>
     </header>

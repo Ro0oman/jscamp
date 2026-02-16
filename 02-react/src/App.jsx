@@ -3,6 +3,7 @@ import { Header } from "./components/Header.jsx";
 import { HomePage } from "./pages/Home.jsx";
 import { SearchPage } from "./pages/Search.jsx";
 import { Route } from "./components/Route.jsx";
+import { Contact } from "./pages/Contact.jsx";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Header />
       <Route path= "/" component= {HomePage} />
       <Route path= "/search" component= {SearchPage} />
+      <Route path= "/contacto" component= {Contact} />
       <Footer />
     </>
   );
