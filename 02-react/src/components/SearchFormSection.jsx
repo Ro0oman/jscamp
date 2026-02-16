@@ -1,11 +1,8 @@
-import { useId } from "react";
+import { useState, useId } from "react";
 
-export function SearchFormSection({ onSearch, onTextFilter }) {
-  const idText = useId();
-  const idTechnology = useId();
-  const idLocation = useId();
-  const idExperienceLevel = useId();
-
+const useSearchForm = ({idTechnology, idLocation, idExperienceLevel, idText, onSearch, onTextFilter}) => {
+  const [searchText, setSearchText] = useState("");
+  
   const handleSumbit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -21,9 +18,23 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
 
   const handleTextChange = (e) => {
     const text = e.target.value;
+    setSearchText(text);
     onTextFilter(text);
 
   }
+
+  return{
+    searchText, handleSumbit, handleTextChange
+  }
+}
+
+export function SearchFormSection({ onSearch, onTextFilter }) {
+  const idText = useId();
+  const idTechnology = useId();
+  const idLocation = useId();
+  const idExperienceLevel = useId();
+  const { handleSumbit, handleTextChange} =
+   useSearchForm({idTechnology, idLocation, idExperienceLevel, idText, onSearch, onTextFilter})
 
   return (
     <section className="jobs-search">
