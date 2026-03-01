@@ -13,7 +13,6 @@ export function JobListings({jobs}) {
           <JobCard key={job.id} job={job} />
         ))}
       </div>
-      <button className="button-apply-job">Aplicar</button>
     </>
   );
 }

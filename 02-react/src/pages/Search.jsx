@@ -1,4 +1,4 @@
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { Pagination } from "../components/Pagination.jsx";
 import { SearchFormSection } from "../components/SearchFormSection.jsx";
 import { JobListings } from "../components/JobListings.jsx";
@@ -19,14 +19,16 @@ const useFilters = () => {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
 
+
   useEffect(()=>{
     async function fetchJobs() {
       try{
         setLoading(true);
 
-        const params = new URLSearchParams();
-        if (filters.textToFilter) {
-          params.append("text", textToFilter);
+      const params = new URLSearchParams();
+
+        if (filters.search) {
+          params.append("text", filters.search);
         }
         if (filters.technology) {
           params.append("technology", filters.technology);
@@ -38,9 +40,13 @@ const useFilters = () => {
           params.append("level", filters.experienceLevel);
         }
 
+        
+
+        const offset = (currentPage - 1) * RESULTS_PER_PAGE;
+        params.append("offset", offset.toString());
+        params.append("limit", RESULTS_PER_PAGE.toString());
+
         const queryParams = params.toString();
-
-
 
         const response = await fetch(`https://jscamp-api.vercel.app/api/jobs?${queryParams}`)
         const json = await response.json();
@@ -56,7 +62,7 @@ const useFilters = () => {
   },[filters, textToFilter, currentPage])
 
 
-  const totalPages = Math.ceil(jobs.length / RESULTS_PER_PAGE);
+  const totalPages = Math.ceil(total / RESULTS_PER_PAGE);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -81,7 +87,7 @@ const useFilters = () => {
     jobs,
     handlePageChange,
     handleSearch,
-    handleTextFilter
+    handleTextFilter,
   }
 };
 
@@ -98,21 +104,23 @@ export function SearchPage() {
     handleTextFilter,
   } = useFilters();
 
-  useEffect(() => {
-    document.title = `Resultados : ${total}, Pagina: ${currentPage} - DevJobs`;
-  }, [total, currentPage]);
+
+
+  const title = loading ? 'Cargando...' : `Resultados : ${total}, Pagina: ${currentPage} - DevJobs`;
 
   return (
     <main>
+      <title>{title}</title>
+      <meta name="description" content="Resultados de búsqueda de empleos en DevJobs" />
       <SearchFormSection
         onSearch={handleSearch}
         onTextFilter={handleTextFilter}
       />
+
       <section>
         {
-          loading ? <p>Cargando...</p> : <JobListings jobs={jobs} />
+          loading ? <div  className="spinner"></div> : <JobListings jobs={jobs} />
         }
-        
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

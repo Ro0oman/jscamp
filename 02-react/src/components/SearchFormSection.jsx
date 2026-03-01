@@ -1,12 +1,21 @@
-import { useState, useId } from "react";
+import { useState, useId, useRef } from "react";
 
-const useSearchForm = ({idTechnology, idLocation, idExperienceLevel, idText, onSearch, onTextFilter}) => {
+  const useSearchForm = ({
+    idTechnology,
+    idLocation,
+    idExperienceLevel,
+    idText,
+    onSearch,
+    onTextFilter,
+  }) => {
+
   const [searchText, setSearchText] = useState("");
-  
+  const formRef = useRef(null);
+
   const handleSumbit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    
+
     const filters = {
       search: formData.get(idText),
       technology: formData.get(idTechnology),
@@ -20,28 +29,52 @@ const useSearchForm = ({idTechnology, idLocation, idExperienceLevel, idText, onS
     const text = e.target.value;
     setSearchText(text);
     onTextFilter(text);
+  };
 
-  }
+  const handleClearFilters = () => {
+    setSearchText("");
+    // reset the form element itself so selects return to first option
+    if (formRef && formRef.current) {
+      formRef.current.reset();
+    }
+    onSearch({
+      search: "",
+      technology: "",
+      location: "",
+      experienceLevel: "",
+    });
+    onTextFilter("");
+  };
 
-  return{
-    searchText, handleSumbit, handleTextChange
-  }
-}
+  return {
+    searchText,
+    handleSumbit,
+    handleTextChange,
+    handleClearFilters,
+    formRef,
+  };
+};
 
 export function SearchFormSection({ onSearch, onTextFilter }) {
   const idText = useId();
   const idTechnology = useId();
   const idLocation = useId();
   const idExperienceLevel = useId();
-  const { handleSumbit, handleTextChange} =
-   useSearchForm({idTechnology, idLocation, idExperienceLevel, idText, onSearch, onTextFilter})
-
+  const { handleSumbit, handleTextChange, handleClearFilters, formRef, searchText } = useSearchForm({
+    idTechnology,
+    idLocation,
+    idExperienceLevel,
+    idText,
+    onSearch,
+    onTextFilter,
+  });
   return (
     <section className="jobs-search">
+
       <h1>Encuentra tu próximo trabajo</h1>
       <p>Explora miles de oportunidades en el sector tecnológico.</p>
 
-      <form onChange={handleSumbit} id="empleos-search-form" role="search">
+      <form ref={formRef} onChange={handleSumbit} id="empleos-search-form" role="search">
         <div className="search-bar">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -65,6 +98,7 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
             id="empleos-search-input"
             type="text"
             placeholder="Buscar trabajos, empresas o habilidades"
+            value={searchText}
             onChange={handleTextChange}
           />
           {/* <button type="submit">Buscar</button> */}
@@ -105,6 +139,7 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
             <option value="senior">Senior</option>
             <option value="lead">Lead</option>
           </select>
+          <button type="button" onClick={handleClearFilters}>Limpiar filtros</button>
         </div>
       </form>
 
