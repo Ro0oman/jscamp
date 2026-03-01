@@ -1,6 +1,5 @@
 import { useState, useId, useRef } from "react";
 
-let timeoutId = null;
 
 const useSearchForm = ({
   idTechnology,
@@ -10,6 +9,7 @@ const useSearchForm = ({
   onSearch,
   onTextFilter,
 }) => {
+  const timeoutId = useRef(null);
   const [searchText, setSearchText] = useState("");
   const formRef = useRef(null);
 
@@ -34,10 +34,10 @@ const useSearchForm = ({
     const text = e.target.value;    
     setSearchText(text);
     // debounce the text filter to avoid making too many requests while the user is typing
-    if (timeoutId) {
-      clearTimeout(timeoutId);
+    if (timeoutId.current) {
+      clearTimeout(timeoutId.current);
     }
-    timeoutId = setTimeout(() => {
+    timeoutId.current = setTimeout(() => {
       onTextFilter(text);
     }, 500);
   };
@@ -123,6 +123,9 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
             onChange={handleTextChange}
           />
           {/* <button type="submit">Buscar</button> */}
+          <button type="button" onClick={handleClearFilters}>
+           ❎ Limpiar filtros
+          </button>
         </div>
 
         <div className="search-filters">
@@ -160,9 +163,7 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
             <option value="senior">Senior</option>
             <option value="lead">Lead</option>
           </select>
-          <button type="button" onClick={handleClearFilters}>
-            Limpiar filtros
-          </button>
+          
         </div>
       </form>
 
