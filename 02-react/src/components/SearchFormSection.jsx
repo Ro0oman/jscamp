@@ -1,14 +1,15 @@
 import { useState, useId, useRef } from "react";
 
-  const useSearchForm = ({
-    idTechnology,
-    idLocation,
-    idExperienceLevel,
-    idText,
-    onSearch,
-    onTextFilter,
-  }) => {
+let timeoutId = null;
 
+const useSearchForm = ({
+  idTechnology,
+  idLocation,
+  idExperienceLevel,
+  idText,
+  onSearch,
+  onTextFilter,
+}) => {
   const [searchText, setSearchText] = useState("");
   const formRef = useRef(null);
 
@@ -16,8 +17,12 @@ import { useState, useId, useRef } from "react";
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
+    if (e.target.name === idText) {
+      // if the text input changed, we will handle the search in the text filter handler to debounce it
+      return;
+    }
+
     const filters = {
-      search: formData.get(idText),
       technology: formData.get(idTechnology),
       location: formData.get(idLocation),
       experienceLevel: formData.get(idExperienceLevel),
@@ -26,9 +31,15 @@ import { useState, useId, useRef } from "react";
   };
 
   const handleTextChange = (e) => {
-    const text = e.target.value;
+    const text = e.target.value;    
     setSearchText(text);
-    onTextFilter(text);
+    // debounce the text filter to avoid making too many requests while the user is typing
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
+      onTextFilter(text);
+    }, 500);
   };
 
   const handleClearFilters = () => {
@@ -60,7 +71,13 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
   const idTechnology = useId();
   const idLocation = useId();
   const idExperienceLevel = useId();
-  const { handleSumbit, handleTextChange, handleClearFilters, formRef, searchText } = useSearchForm({
+  const {
+    handleSumbit,
+    handleTextChange,
+    handleClearFilters,
+    formRef,
+    searchText,
+  } = useSearchForm({
     idTechnology,
     idLocation,
     idExperienceLevel,
@@ -70,11 +87,15 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
   });
   return (
     <section className="jobs-search">
-
       <h1>Encuentra tu próximo trabajo</h1>
       <p>Explora miles de oportunidades en el sector tecnológico.</p>
 
-      <form ref={formRef} onChange={handleSumbit} id="empleos-search-form" role="search">
+      <form
+        ref={formRef}
+        onChange={handleSumbit}
+        id="empleos-search-form"
+        role="search"
+      >
         <div className="search-bar">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -139,7 +160,9 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
             <option value="senior">Senior</option>
             <option value="lead">Lead</option>
           </select>
-          <button type="button" onClick={handleClearFilters}>Limpiar filtros</button>
+          <button type="button" onClick={handleClearFilters}>
+            Limpiar filtros
+          </button>
         </div>
       </form>
 

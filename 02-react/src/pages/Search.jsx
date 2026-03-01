@@ -27,8 +27,10 @@ const useFilters = () => {
 
       const params = new URLSearchParams();
 
-        if (filters.search) {
-          params.append("text", filters.search);
+
+
+        if (textToFilter) {
+          params.append("text", textToFilter);
         }
         if (filters.technology) {
           params.append("technology", filters.technology);
@@ -118,6 +120,7 @@ export function SearchPage() {
       />
 
       <section>
+              <h2 style={{textAlign: "center"}}>Resultados de búsqueda</h2>
         {
           loading ? <div  className="spinner"></div> : <JobListings jobs={jobs} />
         }
