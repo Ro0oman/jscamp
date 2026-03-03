@@ -66,7 +66,7 @@ const useSearchForm = ({
   };
 };
 
-export function SearchFormSection({ onSearch, onTextFilter }) {
+export function SearchFormSection({ onSearch, onTextFilter, initialText }) {
   const idText = useId();
   const idTechnology = useId();
   const idLocation = useId();
@@ -76,7 +76,6 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
     handleTextChange,
     handleClearFilters,
     formRef,
-    searchText,
   } = useSearchForm({
     idTechnology,
     idLocation,
@@ -119,7 +118,7 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
             id="empleos-search-input"
             type="text"
             placeholder="Buscar trabajos, empresas o habilidades"
-            value={searchText}
+            defaultValue={initialText}
             onChange={handleTextChange}
           />
           {/* <button type="submit">Buscar</button> */}
