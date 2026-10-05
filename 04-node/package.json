@@ -1,0 +1,10 @@
+{
+    "type": "module",
+    "name": "04-node",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "Roman",
+    "dependencies": {
+        "ms": "^2.1.3"
+    }
+}
