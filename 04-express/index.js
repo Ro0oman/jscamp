@@ -1,14 +1,10 @@
 import express from 'express';
+import jobs from './jobs.json' with { type: 'json' };
 
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-const jobs = [
-        { id: 1, title: 'Software Engineer', company: 'Tech Corp' },
-        { id: 2, title: 'Data Scientist', company: 'Data Inc' },
-        { id: 3, title: 'Product Manager', company: 'Products LLC' }
-    ];
 
 app.use((req, res, next) => {
     const timeString = new Date().toISOString();
@@ -35,12 +31,13 @@ app.get('/get-job/:id', (req, res) => {
     const jobId = parseInt(req.params.id, 10);
     const job = jobs.find(j => j.id === jobId);
     console.log(job);
-    
     if (!job) {
         return res.status(404).json({ error: 'Job not found' });
     }
     return res.json(job);
 });
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
