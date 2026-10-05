@@ -38,11 +38,12 @@ const entries = await Promise.all(
 entries.sort((a, b) => {
     if (a.isDir && !b.isDir) return -1;
     if (!a.isDir && b.isDir) return 1;
+    return a.name.localeCompare(b.name);
 });
 
 
 if (process.argv.includes('--files-only')) {
-    let filesOnly = entries.filter(entry => !entry.isDir);
+    const filesOnly = entries.filter(entry => !entry.isDir);
 
     for (const entrie of filesOnly){
         const icon = '📄' 
