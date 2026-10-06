@@ -7,11 +7,15 @@ const PORT = process.env.PORT || DEFAULTS.PORT;
 
 const app = express();
 
-app.use(express.json())
+
 app.use((req, res, next) => {
     const timeString = new Date().toISOString();
     console.log(`[${timeString}] ${req.method} ${req.url}`);
     next();
+});
+
+app.get('/', (req, res) => {
+    res.send('<h1>Welcome to the Express server!</h1>');
 });
 
 app.get('/health', (req, res) => {
@@ -47,73 +51,28 @@ app.get('/jobs', (req, res) => {
     return res.json(paginatedJobs);
 });
 
+
+
 app.get('/jobs/:id', (req, res) => {
-    const {id}= req.params
-    const job = jobs.find(j => j.id === id);
-    if(!job) {
+    const jobId = parseInt(req.params.id, 10);
+    const job = jobs.find(j => j.id === jobId);
+    console.log(job);
+    if (!job) {
         return res.status(404).json({ error: 'Job not found' });
     }
     return res.json(job);
 });
 
 app.post('/jobs', (req, res) => {
-    const {titulo, empresa, ubicacion, data} = req.body
-
-    const newJob = {
-        id:crypto.randomUUID(),
-        titulo,
-        empresa,
-        ubicacion,
-        data
-    }
-    jobs.push(newJob)
-    console.log(jobs);
-    
-    return res.status(201).json(newJob)
+    //post
 });
 
 app.put('/jobs/:id', (req, res) => {
-    const {id}= req.params
-    const {titulo, empresa, ubicacion, data} = req.body
-
-    const jobIndex = jobs.findIndex(job => job.id === id)
-
-    if (jobIndex === -1) {
-        return res.status(404).json({ error: 'Job not found' })
-    }
-
-    const updatedJob = {
-        id,
-        titulo,
-        empresa,
-        ubicacion,
-        data
-    }
-    jobs[jobIndex] = updatedJob
-    
-    return res.status(201).json(updatedJob)
+    //put
 });
 
 app.patch('/jobs/:id', (req, res) => {
-    const {id}= req.params
-    const {titulo, empresa, ubicacion, data} = req.body
-
-    const jobIndex = jobs.findIndex(job => job.id === id)
-
-    if (jobIndex === -1) {
-        return res.status(404).json({ error: 'Job not found' })
-    }
-
-    const updatedJob = {
-        id: jobs[jobIndex].id,
-        titulo:titulo ?? jobs[jobIndex].titulo,
-        empresa:empresa ?? jobs[jobIndex].empresa,
-        ubicacion:ubicacion ?? jobs[jobIndex].ubicacion,
-        data:data ?? jobs[jobIndex].data
-    }
-    jobs[jobIndex] = updatedJob
-    
-    return res.status(200).json(updatedJob)
+    //patch
 });
 
 app.delete('/jobs/:id', (req, res) => {
