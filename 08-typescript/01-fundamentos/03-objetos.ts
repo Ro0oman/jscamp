@@ -19,5 +19,13 @@ const user2: User = {
 
 // user2.name = 'Miguel' won't work
 
+type Translations = {
+    [key: string]: string
+}
 
+const dictionary:Translations = {
+    hello: "Hola",
+    goodbye: "Adios",
+    cherry: "c"
+}
 
